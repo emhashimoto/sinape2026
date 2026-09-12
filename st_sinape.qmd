@@ -1,0 +1,113 @@
+---
+title: "AM2"
+title-slide-attributes:
+    data-background-image: imagem-sinape/fundo_avc4.png
+    data-background-size: 100%
+    #data-background-opacity: "0.85"
+author:
+  - name: "Elizabeth Mie Hashimoto"
+    email: "elizabeth.hashimoto@unesp.br"
+    affiliation: "FCT/UNESP"
+format:
+  revealjs:
+    #incremental: true
+    footer: "26o SINAPE - ST3"
+    logo: imagem-sinape/logo_unesp.png
+    slide-number: false
+    multiplex: false
+    theme: [solarized, tema.scss]
+    show-slide-number: print
+    controls: true
+    width: 1280
+    height: 720
+    css: [custom.css]
+    menu: true
+    chalkboard: false
+execute:
+  echo: false
+from: markdown+emoji
+---
+
+## 📋Sumário
+
+<br>
+
+:::{.columns}
+:::{.column width="60%"}
+:::{.fragment}
+- Motivação
+:::
+
+:::{.fragment}
+- Conjunto de dados
+:::
+
+:::{.fragment}
+- Modelo de Cox com fragilidade
+:::
+
+:::{.fragment}
+- Resultados e discussões
+:::
+
+:::{.fragment}
+- Consideraçõs finais
+:::
+
+:::{.fragment}
+- Principais referências
+:::
+:::
+
+:::{.column width="40%"}
+
+<br>
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3cGk2c29nY3A3ZGlnMjV2NHRvejFiNWN1ZG05cG94NHRvZjc2NHdqcSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/P0ETFEK8m0FD9DlVN9/giphy.gif" width="60%">
+</div>
+:::
+:::
+
+## 💡Motivação 
+
+## 🗃️Conjunto de dados
+
+## ⚙️Modelo de Cox com fragilidade
+
+## 🗨️Resultados e discussões
+
+## 🏁Considerações finais
+
+## 📚Referências
+
+- COLOSIMO, E.A; GIOLO, S.R. **Análise de sobrevivência aplicada**. 2. ed. São Paulo: Blucher, 2024.
+
+- THERNEAU, T.M.; GRAMBSCH, P.M. **Modeling Survival Data: Extending the Cox Model**. New York: Springer, 2000.
+
+---
+
+## 📢Liga acadêmica Health Tech
+
+<br>
+
+<div style="text-align: center;">
+<img src="imagem-sinape/liga_academica.png" width="30%">
+</div>
+
+@liga_healthtech
+
+---
+
+```{r , echo=FALSE, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTAxM2l6Z3NvYjAyNzVsZzM2NG00czRzeWNtYzhnbmRqMDA2ZWVzbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lD76yTC5zxZPG/giphy.gif')
+```
+
+---
+
+<br>
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWE1c3prdnlnbXR1dzZpeHh5ZTR2MGoyenU4amVld2JhN2plNzVzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wU4D0FflO5gfwfbPDN/giphy.gif" width="30%">
+</div>
+
