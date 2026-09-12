@@ -11,7 +11,7 @@ author:
 format:
   revealjs:
     #incremental: true
-    footer: "Sessão temática 3"
+    footer: "Sessão Temática 3"
     logo: imagem-sinape/logo_sinape.png
     slide-number: false
     multiplex: false
@@ -72,6 +72,36 @@ from: markdown+emoji
 ## 💡Motivação 
 
 ## 🗃️Conjunto de dados
+
+<br>
+
+:::{.columns}
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/fontes_dados.png" width="90%">
+</div>
+:::
+:::
+
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/fonte_dados2.png" width="90%">
+</div>
+:::
+:::
+
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/fonte_dados3.png" width="90%">
+</div>
+:::
+:::
+:::
+
+---
 
 ## ⚙️Modelo de Cox com fragilidade
 
@@ -136,7 +166,24 @@ Matemática Aplicada e Computacional
 
 <br>
 
+:::{.columns}
+:::{.column width="50%"}
+:::{.fragment}
 <div style="text-align: center;">
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWE1c3prdnlnbXR1dzZpeHh5ZTR2MGoyenU4amVld2JhN2plNzVzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wU4D0FflO5gfwfbPDN/giphy.gif" width="30%">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWE1c3prdnlnbXR1dzZpeHh5ZTR2MGoyenU4amVld2JhN2plNzVzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wU4D0FflO5gfwfbPDN/giphy.gif" width="60%">
 </div>
+:::
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MGh3Z3c2Zmlnbml0cndmOTRvNmlkMnRxdzdjZ2d0aTZhb2U2aDU2MyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7McayIZ7STqoxMN3xS/giphy.gif" width="60%">
+</div>
+:::
+:::
+:::
+
+
+
 
