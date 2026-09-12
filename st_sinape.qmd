@@ -11,8 +11,8 @@ author:
 format:
   revealjs:
     #incremental: true
-    footer: "26o SINAPE - ST3"
-    logo: imagem-sinape/logo_unesp.png
+    footer: "Sessão temática 3"
+    logo: imagem-sinape/logo_sinape.png
     slide-number: false
     multiplex: false
     theme: [solarized, tema.scss]
@@ -87,6 +87,38 @@ from: markdown+emoji
 
 ---
 
+## 📢 Programa de pós
+
+<br>
+
+:::{.columns}
+:::{.column width="40%"}
+<div style="text-align: center;">
+Matemática Aplicada e Computacional
+<img src="imagem-sinape/logo_posmac_semfundo.png" width="60%">
+
+@posmac_unesp
+</div>
+
+:::
+
+:::{.column width="60%"}
+
+- Inscrições: 15/09 à 16/10.
+
+- <span style="color: blue;">Matemática computacional e ciência de dados</span>
+
+- [posMAC](https://www.fct.unesp.br/#!/pos-graduacao/--matematica-aplicada-e-computacional/)
+
+<div style="text-align: right;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzdubW4xanh3ZDY2azUzZTlubjI0YmFkdzM2ZG1pNGdscGc4bmV2dCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3a53VvGpzUgh05qq7W/giphy.gif" width="25%">
+</div>
+:::
+:::
+
+<!--
+---
+
 ## 📢Liga acadêmica Health Tech
 
 <br>
@@ -95,13 +127,10 @@ from: markdown+emoji
 <img src="imagem-sinape/liga_academica.png" width="30%">
 </div>
 
+<p style="text-align: center; color: blue;font-weight: bold;">
 @liga_healthtech
-
----
-
-```{r , echo=FALSE, fig.align = 'center', out.width = '80%'}
-knitr::include_graphics('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTAxM2l6Z3NvYjAyNzVsZzM2NG00czRzeWNtYzhnbmRqMDA2ZWVzbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lD76yTC5zxZPG/giphy.gif')
-```
+</p>
+-->
 
 ---
 
