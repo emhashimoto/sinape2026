@@ -1,5 +1,5 @@
 ---
-title: "AM2"
+title: "st3"
 title-slide-attributes:
     data-background-image: imagem-sinape/fundo_avc4.png
     data-background-size: 100%
@@ -173,7 +173,7 @@ from: markdown+emoji
 :::
 :::
 
-## 🧱Variáveis observadas
+## 🔎Variáveis observadas
 
 :::{.columns}
 :::{.column width="50%"}
@@ -195,7 +195,373 @@ from: markdown+emoji
 
 ## 🗨️Resultados e discussões
 
+```{r}
+#pacotes
+library(geobr)
+library(sf)
+library(ggplot2)
+library(viridis)
+library(survival)
+library(survminer)
+library(coxme)
+```
+
+
+```{r}
+#| echo: false
+#| results: hide
+
+#importar dados
+dat <- readxl::read_xlsx('internacoes_sp_intermediario.xlsx')
+dplyr::glimpse(dat)
+
+df <- dat |> 
+  dplyr::filter(idade>=18)
+```
+
+```{r}
+#Municipio de SP
+sp <- read_municipality(
+  code_muni = "SP",
+  year = 2022,
+  simplified = TRUE)
+
+sao_paulo <- sp |> 
+  dplyr::filter(name_muni == "São Paulo")
+```
+
+```{r}
+#dados dos hospitais
+hospitais <- data.frame(
+  CNES = c("2077426",
+    "2080346",
+    "2077639",
+    "2077523",
+    "2091585",
+    "2080583",
+    "2079240",
+    "3212130",
+    "2080788",
+    "5718368"),
+  efeito = c(-0.3489,
+    -0.3396,
+    -0.3282,
+    -0.2214,
+    -0.1634,
+    -0.0362,
+    0.0922,
+    0.1180,
+    0.5582,
+    0.6693),
+  hospital = c("Hospital Geral Henrique Altimeyer",
+    "Hospital Municipal Dr. Cármino Caricchio",
+    "Hospital Municipal Prof. Dr. Waldomiro de Paula",
+    "Hospital Ipiranga (UGA II)",
+    "Hospital Estadual de Sapopemba",
+    "Hospital Municipal Tide Setúbal",
+    "Hospital Geral Jesus Teixeira da Costa",
+    "Hospital Municipal Ver. José Storopolli",
+    "Hospital Municipal Dr. Alexandre Zaio",
+    "Hospital Municipal Dr. Moysés Deutsch"),
+  latitude = c(-23.5898,
+    -23.5358,
+    -23.5422,
+    -23.5828,
+    -23.6148,
+    -23.4938,
+    -23.5415,
+    -23.5093,
+    -23.5492,
+    -23.6823),
+  longitude = c(-46.5647,
+    -46.5701,
+    -46.4674,
+    -46.6111,
+    -46.4962,
+    -46.4428,
+    -46.4173,
+    -46.5835,
+    -46.5165,
+    -46.7621))
+```
+
+```{r}
+#coordenadas 
+hospitais_sf <- st_as_sf(
+  hospitais,
+  coords = c("longitude", "latitude"),
+  crs = 4326)
+```
+
+```{r}
+#transformar tudo para UTM 235
+# SIRGAS 2000 / UTM 23S
+sao_paulo_utm <- st_transform(
+  sao_paulo,
+  crs = 31983)
+
+hospitais_utm <- st_transform(
+  hospitais_sf,
+  crs = 31983)
+```
+
+:::{.columns}
+:::{.column width="50%"}
+
+```{r}
+#| fig-align: center
+#| fig-width: 10
+#| fig-height: 8
+
+ggplot() +
+  # Município de São Paulo
+  geom_sf(data = sao_paulo_utm,
+    fill = "gray95",
+    color = "gray30",
+    linewidth = 0.7) +
+  # Hospitais
+  geom_sf(data = hospitais_utm,
+    aes(color = CNES),
+    size = 6,
+    alpha = 0.9) +
+  # CNES
+  labs(title = "Localização dos hospitais na cidade de São Paulo",
+    #subtitle = "Identificação por código CNES",
+    caption = "Fonte: geobr/IBGE; coordenadas geográficas dos hospitais") +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+    panel.grid = element_line(color = "gray90"),
+    legend.position = "right",
+    plot.title = element_text(size = 20),
+    legend.title = element_text(size = 18),
+    legend.text = element_text(size = 17))
+```
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+
+```{r}
+df_cnes <- df |>
+  dplyr::group_by(cnes) |> 
+  dplyr::count(morte, name='contagem')
+```
+
+```{r}
+dados_total <- df_cnes |> 
+  dplyr::group_by(cnes) |> 
+  dplyr::summarise(total = sum(contagem))
+```
+
+```{r}
+#| fig-align: center
+#| fig-width: 10
+#| fig-height: 8
+
+#Mostrar quantos pacientes existem em cada hospital.
+dados_total |> 
+  ggplot() +
+  aes(x = reorder(factor(cnes), total),
+      y = total) +
+  #geom_col(fill = "#56B4E9") +
+  geom_col(fill = "slategray") +
+  coord_flip() +
+  labs(title = "Número de pacientes em cada hospital",
+    x = "CNES",
+    y = "Número de pacientes") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 20),
+    axis.title = element_text(size = 19),
+    axis.text = element_text(size = 18))
+```
+:::
+:::
+:::
+
+---
+
+```{r}
+#| output: false
+
+df |> 
+  dplyr::count(cor) |> 
+  dplyr::mutate(porcentagem = (n / sum(n)) * 100)
+
+df |> 
+  dplyr::count(sexo) |> 
+  dplyr::mutate(porcentagem = (n / sum(n)) * 100)
+
+df |> 
+  dplyr::count(uti) |> 
+  dplyr::mutate(porcentagem = (n / sum(n)) * 100)
+```
+
+<table style="border-collapse: collapse; width: 100%; text-align: left; margin: 0 auto; border-bottom: 1px solid black;">
+  <caption style="font-size: 1.2em; padding-bottom: 12px;">
+    Tabela - Perfil demográfico e clínico da amostra
+  </caption>
+  <thead>
+    <tr style="background-color: #f2f2f2; border-bottom: 1px solid black;">
+      <th style="padding: 10px;">Variável</th>
+      <th style="padding: 10px;">Categoria</th>
+      <th style="padding: 10px; text-align: center;">Frequência (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Seção Sexo -->
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td rowspan="2" style="padding: 10px; font-weight: bold; border-bottom: 1px solid black;">Sexo</td>
+      <td style="padding: 10px;">Feminino</td>
+      <td style="padding: 10px; text-align: center;">48,5</td>
+    </tr>
+    <tr style="border-bottom: 1px solid black;">
+      <td style="padding: 10px;">Masculino</td>
+      <td style="padding: 10px;text-align: center;">51,5</td>
+    </tr>
+    
+    <!-- Seção Cor ou Raça -->
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td rowspan="2" style="padding: 10px; font-weight: bold; border-bottom: 1px solid black;">Cor</td>
+      <td style="padding: 10px;">Branco</td>
+      <td style="padding: 10px;text-align: center;">44,0</td>
+    </tr>
+    <tr style="border-bottom: 1px solid black;">
+      <td style="padding: 10px;">Não branco</td>
+      <td style="padding: 10px;text-align: center;">56,0</td>
+    </tr>
+
+    <!-- Seção UTI -->
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td rowspan="2" style="padding: 10px; font-weight: bold; border-bottom: 1px solid black;">Uso de UTI</td>
+      <td style="padding: 10px;">Sim</td>
+      <td style="padding: 10px;text-align: center;">85,7</td>
+    </tr>
+    <!-- ÚLTIMA LINHA: Borda inferior forçada nas células -->
+    <tr>
+      <td style="padding: 10px; border-bottom: 1px solid black;">Não</td>
+      <td style="padding: 10px; border-bottom: 1px solid black;text-align: center;">14,3</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+
+
+---
+
+:::{.columns}
+:::{.column width="50%"}
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
+
+# kaplan meier
+km_genero <- survfit(Surv(dias_perm, morte)~sexo, data=df)
+
+ggsurvplot(km_genero, data = df,
+  font.x = 23,              
+  font.y = 23, 
+  font.tickslab = 23,
+  font.legend = 18,
+           xlab = "Tempo (em dias)",
+           ylab = "Probabilidade de sobrevivência",
+           legend.title = "")
+```
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
+
+# kaplan meier 
+km_uti <- survfit(Surv(dias_perm, morte)~uti, data=df)
+ggsurvplot(km_uti, data = df,
+  font.x = 23,              
+  font.y = 23, 
+  font.tickslab = 23,
+  font.legend = 18,
+           xlab = "Tempo (em dias)",
+           ylab = "Probabilidade de sobrevivência",
+           legend.title = "")
+```
+:::
+:::
+:::
+---
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 6
+
+# kaplan meier 
+km_cor <- survfit(Surv(dias_perm, morte)~cor, data=df)
+ggsurvplot(km_cor, data = df,
+           font.x = 18,              
+  font.y = 18, 
+  font.tickslab = 18,
+  font.legend = 15,
+           xlab = "Tempo (em dias)",
+           ylab = "Probabilidade de sobrevivência",
+           legend.title = "")
+```
+
+---
+
+```{r}
+fit_gamma <- coxph(Surv(dias_perm, morte) ~ idade+cor+
+  uti+n_diagsec+
+               + frailty(cnes, dist = "gaussian"), 
+              data = df)
+summary(fit_gamma)
+```
+
+```{r}
+#| echo: false
+
+fit_coxme <- coxme(Surv(dias_perm, morte) ~ idade+cor+
+  uti+n_diagsec + (1 | cnes), 
+                   data = df) 
+summary(fit_coxme)
+```
+
+---
+
+```{r}
+#| echo: false
+tbl <- gtsummary::tbl_regression(
+fit_gamma,
+exponentiate = TRUE
+)
+
+tbl
+```
+
 ## 🏁Considerações finais
+
+<br>
+
+:::{.columns}
+:::{.column width="50%"}
+xxxx
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+<p style="text-align: center; color: red;font-weight: bold;">
+Limitações
+</p>
+:::
+:::
+:::
 
 ## 📚Referências
 
