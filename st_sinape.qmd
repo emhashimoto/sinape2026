@@ -72,6 +72,32 @@ from: markdown+emoji
 
 ## 💡Motivação 
 
+:::{.columns}
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/motivacao1.png" width="90%">
+</div>
+:::
+:::
+
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/motivacao2.png" width="90%">
+</div>
+:::
+:::
+
+:::{.column width="33%"}
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/motivacao3.png" width="90%">
+</div>
+:::
+:::
+:::
+
 ## 🗃️Conjunto de dados
 
 <br>
@@ -80,7 +106,7 @@ from: markdown+emoji
 :::{.column width="33%"}
 :::{.fragment}
 <div style="text-align: center;">
-<img src="imagem-sinape/fontes_dados.png" width="90%">
+<img src="imagem-sinape/fonte_dados1.png" width="90%">
 </div>
 :::
 :::
