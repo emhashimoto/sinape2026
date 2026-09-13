@@ -316,6 +316,230 @@ Elizabeth Mie Hashimoto
 </section>
 <section id="modelo-de-cox-com-fragilidade" class="slide level2">
 <h2>⚙️Modelo de Cox com fragilidade</h2>
+<p><br></p>
+<p>O modelo de Cox é definido por</p>
+<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i\beta), i=1,\ldots,n\]</span></p>
+</section>
+<section class="slide level2">
+
+<style>
+  .network-wrapper {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente o contêiner interno */
+    align-items: center;    /* Centraliza verticalmente se houver altura extra */
+    width: 100%;            /* Ocupa toda a largura disponível */
+    background-color: transparent;
+    border-radius: 12px;
+    position: relative;
+    overflow-x: auto;
+    margin: 20px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px 0;
+}
+
+    .network-container {
+        position: relative;
+        min-width: 900px;
+        height: 500px;
+        margin: 0 auto;
+    }
+
+    .node {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+        transition: transform 0.3s ease;
+        /* Centraliza o nó exatamente na coordenada definida pelos left/top */
+        transform: translate(-50%, -50%); 
+    }
+
+    .node:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .hospital {
+        width: 100px;
+        height: 100px;
+        border: 4px solid #3498db;
+        animation: pulse 2s infinite alternate;
+    }
+
+    .patient {
+        width: 70px;
+        height: 70px;
+        border: 3px solid #2ecc71;
+        opacity: 0;
+        animation: fadeIn 0.8s forwards;
+    }
+
+    .icon-h { font-size: 35px; }
+    .icon-p { font-size: 25px; }
+    
+    .label {
+        font-size: 10px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 2px;
+        text-align: center;
+    }
+
+    /* Posições dos Hospitais */
+    .h1 { left: 150px; top: 250px; }
+    .h2 { left: 450px; top: 250px; }
+    .h3 { left: 750px; top: 250px; }
+
+    /* Posições dos Pacientes - Hospital 1 (3 pacientes) */
+    .p1-1 { left: 150px; top: 80px;  animation-delay: 0.5s; }
+    .p1-2 { left: 60px;  top: 400px; animation-delay: 1.0s; }
+    .p1-3 { left: 240px; top: 400px; animation-delay: 1.5s; }
+
+    /* Posições dos Pacientes - Hospital 2 (4 pacientes) */
+    .p2-1 { left: 350px; top: 100px; animation-delay: 2.0s; }
+    .p2-2 { left: 550px; top: 100px; animation-delay: 2.5s; }
+    .p2-3 { left: 350px; top: 400px; animation-delay: 3.0s; }
+    .p2-4 { left: 550px; top: 400px; animation-delay: 3.5s; }
+
+    /* Posições dos Pacientes - Hospital 3 (3 pacientes) */
+    .p3-1 { left: 750px; top: 80px;  animation-delay: 4.0s; }
+    .p3-2 { left: 660px; top: 400px; animation-delay: 4.5s; }
+    .p3-3 { left: 840px; top: 400px; animation-delay: 5.0s; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; margin-top: 20px; }
+        to { opacity: 1; margin-top: 0; }
+    }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.6); }
+        100% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
+    }
+
+    .svg-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .connection-line {
+        fill: none;
+        stroke: #bdc3c7;
+        stroke-width: 3;
+        stroke-dasharray: 600;
+        stroke-dashoffset: 600;
+        animation: drawLine 1s ease forwards;
+    }
+
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    .data-flow { 
+        fill: #3498db; 
+        opacity: 0; 
+        animation: moveData 2s infinite linear;
+    }
+
+    @keyframes moveData {
+        0% { offset-distance: 0%; opacity: 1; }
+        100% { offset-distance: 100%; opacity: 0; }
+    }
+</style>
+
+<div class="network-wrapper">
+    <div class="network-container">
+        
+        <svg class="svg-lines" width="900" height="500">
+            <!-- Linhas do Hospital 1 -->
+            <path id="l1-1" class="connection-line" style="animation-delay: 0.8s;" d="M150,80 L150,250"></path>
+            <path id="l1-2" class="connection-line" style="animation-delay: 1.3s;" d="M60,400 L150,250"></path>
+            <path id="l1-3" class="connection-line" style="animation-delay: 1.8s;" d="M240,400 L150,250"></path>
+            
+            <!-- Linhas do Hospital 2 -->
+            <path id="l2-1" class="connection-line" style="animation-delay: 2.3s;" d="M350,100 L450,250"></path>
+            <path id="l2-2" class="connection-line" style="animation-delay: 2.8s;" d="M550,100 L450,250"></path>
+            <path id="l2-3" class="connection-line" style="animation-delay: 3.3s;" d="M350,400 L450,250"></path>
+            <path id="l2-4" class="connection-line" style="animation-delay: 3.8s;" d="M550,400 L450,250"></path>
+
+            <!-- Linhas do Hospital 3 -->
+            <path id="l3-1" class="connection-line" style="animation-delay: 4.3s;" d="M750,80 L750,250"></path>
+            <path id="l3-2" class="connection-line" style="animation-delay: 4.8s;" d="M660,400 L750,250"></path>
+            <path id="l3-3" class="connection-line" style="animation-delay: 5.3s;" d="M840,400 L750,250"></path>
+            
+            <!-- Fluxo de Dados Hospital 1 -->
+            <circle class="data-flow" r="4" style="offset-path: path('M150,80 L150,250'); animation-delay: 1.8s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M60,400 L150,250'); animation-delay: 2.3s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M240,400 L150,250'); animation-delay: 2.8s;"></circle>
+
+            <!-- Fluxo de Dados Hospital 2 -->
+            <circle class="data-flow" r="4" style="offset-path: path('M350,100 L450,250'); animation-delay: 3.3s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M550,100 L450,250'); animation-delay: 3.8s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M350,400 L450,250'); animation-delay: 4.3s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M550,400 L450,250'); animation-delay: 4.8s;"></circle>
+
+            <!-- Fluxo de Dados Hospital 3 -->
+            <circle class="data-flow" r="4" style="offset-path: path('M750,80 L750,250'); animation-delay: 5.3s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M660,400 L750,250'); animation-delay: 5.8s;"></circle>
+            <circle class="data-flow" r="4" style="offset-path: path('M840,400 L750,250'); animation-delay: 6.3s;"></circle>
+        </svg>
+
+        <!-- Hospitais -->
+        <div class="node hospital h1">
+            <div class="icon-h">🏥</div><div class="label" style="font-size: 16px;">Hospital 1</div>
+        </div>
+        <div class="node hospital h2">
+            <div class="icon-h">🏥</div><div class="label" style="font-size: 16px;">Hospital 2</div>
+        </div>
+        <div class="node hospital h3">
+            <div class="icon-h">🏥</div><div class="label" style="font-size: 16px;">Hospital 3</div>
+        </div>
+
+        <!-- Pacientes do Hospital 1 -->
+        <div class="node patient p1-1"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p1-2"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p1-3"><div class="icon-p">🚶‍♀️</div></div>
+
+        <!-- Pacientes do Hospital 2 -->
+        <div class="node patient p2-1"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p2-2"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p2-3"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p2-4"><div class="icon-p">🚶‍♀️</div></div>
+
+        <!-- Pacientes do Hospital 3 -->
+        <div class="node patient p3-1"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p3-2"><div class="icon-p">🚶‍♀️</div></div>
+        <div class="node patient p3-3"><div class="icon-p">🚶‍♀️</div></div>
+
+    </div>
+</div>
+<div class="fragment">
+<div title="Fragilidade">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Fragilidade</strong></p>
+</div>
+<div class="callout-content">
+<p>Variável aleatória não observada associada a um indivíduo ou grupo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>O modelo de Cox com o termo de fragilidade é dado por</p>
+<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)w_j\exp(X_i\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k\]</span></p>
 </section>
 <section id="resultados-e-discussões" class="slide level2">
 <h2>🗨️Resultados e discussões</h2>
@@ -640,13 +864,63 @@ Efeito
 <h2>🏁Considerações finais</h2>
 <p><br></p>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p>xxxx</p>
+<div class="column" style="width:45%;">
+<div title="Efeito fixo">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Efeito fixo</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>UTI e o número de diagnósticos secundários foram os principais preditores de óbito.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div title="Efeito aleatório">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Efeito aleatório</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Variabilidade relevante entre hospitais (efeito de ~0,69 a ~2,00).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div><div class="column" style="width:50%;">
 <div class="fragment">
-<p style="text-align: center; color: red;font-weight: bold;">
-Limitações
-</p>
+<div title="Limitações">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Limitações</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><p>Obtenção da base de dados.</p></li>
+<li><p>Resultados com validade para o ano de 2025.</p></li>
+<li><p>Implementação da estimação de parâmetros.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div></div>
 </section>
