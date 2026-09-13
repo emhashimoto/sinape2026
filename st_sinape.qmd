@@ -25,6 +25,7 @@ format:
     chalkboard: false
 execute:
   echo: false
+  cache: true
 from: markdown+emoji
 ---
 
@@ -208,7 +209,6 @@ library(coxme)
 
 
 ```{r}
-#| echo: false
 #| results: hide
 
 #importar dados
@@ -233,56 +233,56 @@ sao_paulo <- sp |>
 ```{r}
 #dados dos hospitais
 hospitais <- data.frame(
-  CNES = c("2077426",
-    "2080346",
-    "2077639",
-    "2077523",
-    "2091585",
-    "2080583",
-    "2079240",
-    "3212130",
-    "2080788",
-    "5718368"),
-  efeito = c(-0.3489,
-    -0.3396,
-    -0.3282,
-    -0.2214,
-    -0.1634,
-    -0.0362,
-    0.0922,
-    0.1180,
-    0.5582,
-    0.6693),
+  CNES = c("2077426", 
+"2077523", 
+"2077639", 
+"2079240",  
+"2080346", 
+"2080583", 
+"2080788",  
+"2091585", 
+"3212130",  
+"5718368"),
+  efeito = c(-0.36743036,
+-0.20746240,
+-0.33473968,
+0.11577971,
+-0.33567868,
+-0.02317528,
+0.52245317,
+-0.19013488,
+0.12741551,
+0.69297288),
   hospital = c("Hospital Geral Henrique Altimeyer",
-    "Hospital Municipal Dr. Cármino Caricchio",
+  "Hospital Ipiranga (UGA II)",
     "Hospital Municipal Prof. Dr. Waldomiro de Paula",
-    "Hospital Ipiranga (UGA II)",
-    "Hospital Estadual de Sapopemba",
-    "Hospital Municipal Tide Setúbal",
     "Hospital Geral Jesus Teixeira da Costa",
-    "Hospital Municipal Ver. José Storopolli",
+    "Hospital Municipal Dr. Cármino Caricchio",
+    "Hospital Municipal Tide Setúbal",
     "Hospital Municipal Dr. Alexandre Zaio",
+    "Hospital Estadual de Sapopemba",
+    "Hospital Municipal Ver. José Storopolli",
     "Hospital Municipal Dr. Moysés Deutsch"),
-  latitude = c(-23.5898,
-    -23.5358,
-    -23.5422,
-    -23.5828,
-    -23.6148,
-    -23.4938,
-    -23.5415,
-    -23.5093,
-    -23.5492,
-    -23.6823),
-  longitude = c(-46.5647,
-    -46.5701,
-    -46.4674,
-    -46.6111,
-    -46.4962,
-    -46.4428,
-    -46.4173,
-    -46.5835,
-    -46.5165,
-    -46.7621))
+  latitude = c(-23.592910,
+-23.584164,
+-23.530896,
+-23.552628,
+-23.532943,
+-23.496977,
+-23.542828,
+-23.610957,
+-23.522231,
+-23.691461),
+  longitude = c(-46.560152,
+-46.611576,
+-46.444486,
+-46.404636,
+-46.566382,
+-46.440314,
+-46.502122,
+-46.492811,
+-46.561918,
+-46.774921))
 ```
 
 ```{r}
@@ -381,6 +381,43 @@ dados_total |>
 ---
 
 ```{r}
+df_cnes |> 
+  dplyr::group_by(cnes, morte) |> 
+  dplyr::summarise(contagem = sum(contagem), .groups = "drop") |> 
+  dplyr::group_by(cnes) |> 
+  dplyr::mutate(porcentagem = (contagem / sum(contagem)) * 100) |> 
+  dplyr::ungroup() |> 
+  dplyr::filter(morte == 1) |> 
+  dplyr::mutate(
+    destaque = dplyr::case_when(
+      porcentagem == max(porcentagem) ~ "Maior",
+      porcentagem == min(porcentagem) ~ "Menor",
+      TRUE ~ "Outros")) |> 
+  ggplot() +
+  aes(x = reorder(cnes, porcentagem), y = porcentagem, fill = destaque) +
+  geom_col(width = 0.7) +
+  coord_flip() +
+  geom_text(aes(label = paste0(round(porcentagem, 1), "%")),
+            size = 5) +
+  scale_fill_manual(values = c(
+    "Maior" = "#D55E00",  
+    "Menor" = "#7570B3", 
+    "Outros" = "#E0E0E0")) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(title = "Porcentagem de falhas em cada hospital",
+       x = "CNES",
+       y = "Porcentagem de falha (%)",
+       fill = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none",
+  plot.title = element_text(size = 25),
+    axis.title = element_text(size = 15),
+    axis.text = element_text(size = 15))
+```
+
+---
+
+```{r}
 #| output: false
 
 df |> 
@@ -415,8 +452,8 @@ df |>
       <td style="padding: 10px; text-align: center;">48,5</td>
     </tr>
     <tr style="border-bottom: 1px solid black;">
-      <td style="padding: 10px;">Masculino</td>
-      <td style="padding: 10px;text-align: center;">51,5</td>
+      <td style="padding: 10px;color: blue;">Masculino</td>
+      <td style="padding: 10px;text-align: center; color: blue;">51,5</td>
     </tr>
     
     <!-- Seção Cor ou Raça -->
@@ -426,34 +463,149 @@ df |>
       <td style="padding: 10px;text-align: center;">44,0</td>
     </tr>
     <tr style="border-bottom: 1px solid black;">
-      <td style="padding: 10px;">Não branco</td>
-      <td style="padding: 10px;text-align: center;">56,0</td>
+      <td style="padding: 10px;color: blue;">Não branco</td>
+      <td style="padding: 10px;text-align: center;color: blue;">56,0</td>
     </tr>
 
     <!-- Seção UTI -->
     <tr style="border-bottom: 1px solid #cccccc;">
       <td rowspan="2" style="padding: 10px; font-weight: bold; border-bottom: 1px solid black;">Uso de UTI</td>
       <td style="padding: 10px;">Sim</td>
-      <td style="padding: 10px;text-align: center;">85,7</td>
+      <td style="padding: 10px;text-align: center;">14,3</td>
     </tr>
     <!-- ÚLTIMA LINHA: Borda inferior forçada nas células -->
     <tr>
-      <td style="padding: 10px; border-bottom: 1px solid black;">Não</td>
-      <td style="padding: 10px; border-bottom: 1px solid black;text-align: center;">14,3</td>
+      <td style="padding: 10px; border-bottom: 1px solid black;color: blue;">Não</td>
+      <td style="padding: 10px; border-bottom: 1px solid black;text-align: center;color: blue;">85,7</td>
     </tr>
   </tbody>
 </table>
 
 ---
 
+<!--
+:::{.columns}
+:::{.column width="50%"}
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
 
+df |>
+  ggplot() +
+  aes(x = sexo,
+    y = idade,
+    fill = sexo) +
+  geom_boxplot(alpha = 0.8, width = 0.6) +
+  scale_fill_manual(values = c(
+    "Masculino" = "#7570B3",  
+    "Feminino" = "#D55E00")) +
+  labs(title = "Distribuição da idade segundo o sexo biológico",
+    x = NULL,
+    y = "Idade (anos)") +
+  theme_minimal() +
+  theme(legend.position = "none",
+  plot.title = element_text(size = 23),
+    axis.title = element_text(size = 22),
+    axis.text = element_text(size = 22))
+```
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
+
+df |> 
+  ggplot() +
+  aes(x = cor,
+    y = idade,
+    fill = cor) +
+  geom_boxplot(alpha = 0.8, width = 0.6) +
+  scale_fill_manual(values = c(
+    "Não branco" = "#7570B3",  
+    "Branco" = "#D55E00")) +
+  labs(title =  "Distribuição da idade segundo a cor",
+    x = "Cor",
+    y = "Idade (anos)") +
+  theme_minimal() +
+  theme(legend.position = "none",
+  plot.title = element_text(size = 23),
+    axis.title = element_text(size = 22),
+    axis.text = element_text(size = 22))
+
+```
+:::
+:::
+:::
+
+---
+-->
+
+:::{.columns}
+:::{.column width="50%"}
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
+
+df |>
+  ggplot() +
+  aes(y = idade) +
+  geom_boxplot(fill = "gray80",  
+    color = "gray30",  
+    width = 0.5) +
+  labs(title = "Distribuição da idade",
+    y = "Idade (anos)") +
+  theme_minimal() +
+  theme(legend.position = "none",
+  plot.title = element_text(size = 23),
+    axis.title = element_text(size = 22),
+    axis.text = element_text(size = 22),
+    aaxis.ticks.x = element_blank(), 
+    axis.text.x = element_blank())
+```
+:::
+
+:::{.column width="50%"}
+:::{.fragment}
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 7
+
+df |> 
+  ggplot() +
+  aes(y = n_diagsec) +
+  geom_boxplot(fill = "gray80",  
+    color = "gray30",  
+    width = 0.5) +
+  labs(title =  "Distribuição do número de diagnósticos secundários",
+    x = NULL,
+    y = "Número de diagnósticos secundários") +
+  theme_minimal() +
+  theme(legend.position = "none",
+  plot.title = element_text(size = 23),
+    axis.title = element_text(size = 22),
+    axis.text = element_text(size = 22),
+    axis.ticks.x = element_blank(), 
+    axis.text.x = element_blank())
+```
+:::
+:::
+:::
 
 ---
 
 :::{.columns}
 :::{.column width="50%"}
 ```{r}
-#| echo: false
 #| fig-align: center
 #| fig-width: 8
 #| fig-height: 7
@@ -475,7 +627,6 @@ ggsurvplot(km_genero, data = df,
 :::{.column width="50%"}
 :::{.fragment}
 ```{r}
-#| echo: false
 #| fig-align: center
 #| fig-width: 8
 #| fig-height: 7
@@ -497,18 +648,17 @@ ggsurvplot(km_uti, data = df,
 ---
 
 ```{r}
-#| echo: false
 #| fig-align: center
-#| fig-width: 8
-#| fig-height: 6
+#| fig-width: 6
+#| fig-height: 4
 
 # kaplan meier 
 km_cor <- survfit(Surv(dias_perm, morte)~cor, data=df)
 ggsurvplot(km_cor, data = df,
-           font.x = 18,              
-  font.y = 18, 
-  font.tickslab = 18,
-  font.legend = 15,
+           font.x = 15,              
+  font.y = 15, 
+  font.tickslab = 15,
+  font.legend = 12,
            xlab = "Tempo (em dias)",
            ylab = "Probabilidade de sobrevivência",
            legend.title = "")
@@ -517,6 +667,8 @@ ggsurvplot(km_cor, data = df,
 ---
 
 ```{r}
+#| output: false
+
 fit_gamma <- coxph(Surv(dias_perm, morte) ~ idade+cor+
   uti+n_diagsec+
                + frailty(cnes, dist = "gaussian"), 
@@ -525,25 +677,163 @@ summary(fit_gamma)
 ```
 
 ```{r}
-#| echo: false
+#| output: false
 
 fit_coxme <- coxme(Surv(dias_perm, morte) ~ idade+cor+
   uti+n_diagsec + (1 | cnes), 
                    data = df) 
 summary(fit_coxme)
+ranef_out <- data.frame(efeito=ranef(fit_coxme)$cnes)
+ranef_out <- ranef_out |> 
+  dplyr::mutate(efeitoz=exp(efeito))
+ranef_out
+```
+
+```{r}
+beta <- fixef(fit_coxme)                  # Coeficientes (log-hazard)
+se <- sqrt(diag(vcov(fit_coxme)))         # Erro padrão
+hr <- exp(beta)                              # Hazard Ratio
+ic_inferior <- exp(beta - 1.96 * se)         # Limite inferior do IC 95%
+ic_superior <- exp(beta + 1.96 * se) 
+
+df_forest <- data.frame(
+  Variavel = names(beta),
+  HR = hr,
+  IC_Inf = ic_inferior,
+  IC_Sup = ic_superior
+)
+```
+
+```{r}
+df_forest |> 
+  ggplot() +
+  aes(x = HR, y = reorder(Variavel, HR)) +
+  # Adiciona a linha de referência no 1 (efeito nulo)
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50", size = 0.8) +
+  # Adiciona as linhas de intervalo de confiança e os pontos do HR
+  geom_pointrange(aes(xmin = IC_Inf, xmax = IC_Sup), 
+                  color = "#0072B2", # Azul acessível
+                  size = 1, 
+                  linewidth = 1.2) +
+  # Adiciona o texto com os valores exatos
+  geom_text(aes(label = sprintf("%.2f (%.2f - %.2f)", HR, IC_Inf, IC_Sup)), 
+            vjust = -1.2, 
+            size = 4, 
+            color = "black") +
+  # Configurações de escala e tema
+  scale_x_continuous(trans = "log10") + # Escala logarítmica é ideal para HR
+    scale_y_discrete(labels = c(
+    "utiSim" = "Uso de UTI (Sim)",
+    "n_diagsec" = "Nº de Diag. Secundários",
+    "idade" = "Idade (anos)",
+    "corNão branco" = "Cor (Não branco)"
+  )) +
+  labs(x = "Hazard Ratio (Escala Logarítmica)",
+    y = NULL) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(), # Remove as linhas horizontais de fundo
+    axis.text.y = element_text(size = 12, face = "bold", color = "black"),
+    axis.title.x = element_text(margin = margin(t = 15)))
 ```
 
 ---
 
-```{r}
-#| echo: false
-tbl <- gtsummary::tbl_regression(
-fit_gamma,
-exponentiate = TRUE
-)
+:::{.columns}
+:::{.column width="50%"}
 
-tbl
+```{r}
+#| fig-align: center
+#| fig-width: 10
+#| fig-height: 9
+
+hospitais_utm <- hospitais_utm |> 
+  dplyr::mutate(efeitoz=exp(efeito))
+
+ggplot() +
+  # Município de São Paulo
+  geom_sf(data = sao_paulo_utm,
+    fill = "gray95",
+    color = "gray30",
+    linewidth = 0.7) +
+  # Hospitais
+  geom_sf(data = hospitais_utm,
+    aes(color = efeitoz),
+    size = 6) +
+  scale_color_viridis_c(option = "viridis",
+    name = "Efeito da\nfragilidade")+
+  labs(#title = "Localização dos hospitais na cidade de São Paulo",
+    #subtitle = "Identificação por código CNES",
+    caption = "Fonte: geobr/IBGE; coordenadas geográficas dos hospitais") +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+    panel.grid = element_line(color = "gray90"),
+    legend.position = "right",
+    plot.title = element_text(
+      face = "bold",
+      size = 15),
+    legend.title = element_text(size = 18),
+    legend.text = element_text(size = 17))
 ```
+:::
+
+:::{.column width="50%"}
+<table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; margin: 0 auto; border-bottom: 1px solid black; font-size: 0.6em;text-align: center;">
+  <caption style="font-size: 1.2em; padding-bottom: 12px;">
+    Tabela - Efeito aleatório predito
+  </caption>
+  <thead>
+    <tr style="background-color: #f2f2f2; border-bottom: 1px solid black; text-align: center;">
+      <th style="padding: 6px; text-align: left;">CNES</th>
+      <th style="padding: 6px;">Efeito</th>
+    </tr>
+  </thead>
+  <tbody style="text-align: right;">
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2077426</td>
+      <td style="padding: 6px;">0.6925116</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2077523</td>
+      <td style="padding: 6px;">0.8126438</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2077639</td>
+      <td style="padding: 6px;">0.7155243</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2079240</td>
+      <td style="padding: 6px;">1.1227485</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2080346</td>
+      <td style="padding: 6px;">0.7148528</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2080583</td>
+      <td style="padding: 6px;">0.9770912</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2080788</td>
+      <td style="padding: 6px;">1.6861590</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">2091585</td>
+      <td style="padding: 6px;">0.8268476</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #cccccc;">
+      <td style="padding: 6px;">3212130</td>
+      <td style="padding: 6px;">1.1358889</td>
+    </tr>
+    <!-- ÚLTIMA LINHA: Borda inferior forçada nas células -->
+    <tr>
+      <td style="padding: 6px; text-align: left; border-bottom: 1px solid black;">5718368</td>
+      <td style="padding: 6px; border-bottom: 1px solid black;">1.9996514</td>
+    </tr>
+  </tbody>
+</table>
+:::
+:::
 
 ## 🏁Considerações finais
 
@@ -637,7 +927,4 @@ Matemática Aplicada e Computacional
 :::
 :::
 :::
-
-
-
 
