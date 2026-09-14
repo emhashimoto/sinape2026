@@ -98,6 +98,26 @@ from: markdown+emoji
 :::
 :::
 
+---
+
+:::{.columns}
+:::{.column width=50%"}
+<div style="text-align: center;">
+<img src="imagem-sinape/pesquisa3.png" width="120%">
+</div>
+:::
+
+:::{.column width="50%"}
+<div style="text-align: center;">
+<img src="imagem-sinape/pesquisa1.png" width="120%">
+</div>
+:::
+:::
+
+<div style="text-align: center;">
+<img src="imagem-sinape/pesquisa3.png" width="70%">
+</div>
+
 ## 🗃️Conjunto de dados
 
 <br>
