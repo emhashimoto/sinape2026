@@ -211,7 +211,7 @@ Elizabeth Mie Hashimoto
 </div><div class="column" style="width:33%;">
 <div class="fragment">
 <div style="text-align: center;">
-<p><img src="imagem-sinape/motivacao3.png" width="90%"></p>
+<p><img src="imagem-sinape/motiv.png" width="90%"></p>
 </div>
 </div>
 </div></div>
@@ -744,6 +744,193 @@ Não
 <img data-src="st_sinape_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center r-stretch" width="576"></section>
 <section class="slide level2">
 
+<p><br></p>
+<ul>
+<li>Estimativas dos modelos de Cox</li>
+</ul>
+<style>
+  .tabela-cox{
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 900px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.35rem;
+    background: #fff;
+  }
+  .tabela-cox thead tr.group-row th{
+    background: #1c1c1a;
+    color: #f6f5f1;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px 12px;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    border-left: 1px solid rgba(255,255,255,0.18);
+  }
+  .tabela-cox thead tr.group-row th:first-child{ border-left: none; }
+  .tabela-cox thead tr.sub-row th{
+    background: #efede5;
+    color: #55534c;
+    font-weight: 600;
+    text-align: right;
+    padding: 10px 12px;
+    font-size: 1.05rem;
+    border-bottom: 1px solid #b7b3a5;
+    border-left: 1px solid #d9d6cc;
+  }
+  .tabela-cox thead tr.sub-row th:first-child{ text-align: left; border-left: none; }
+  .tabela-cox tbody th{
+    text-align: left;
+    padding: 14px 12px;
+    font-weight: 600;
+    border-top: 1px solid #d9d6cc;
+    background: #fbfaf7;
+    white-space: nowrap;
+  }
+  .tabela-cox tbody td{
+    text-align: right;
+    padding: 14px 12px;
+    border-top: 1px solid #d9d6cc;
+    border-left: 1px solid #d9d6cc;
+    white-space: nowrap;
+  }
+  .tabela-cox tbody tr:hover td, .tabela-cox tbody tr:hover th{ background: #f2f1ea; }
+  .tabela-cox td.p-sig{ background: #e7f0ee; color: #1f5c55; font-weight: 700; }
+  .tabela-cox td.p-marg{ background: #f4ecd8; color: #8a6a1f; font-weight: 700; }
+  .tabela-cox tfoot td{
+    padding: 12px;
+    border-top: 1px solid #b7b3a5;
+    font-size: 0.95rem;
+    color: #55534c;
+    text-align: left;
+    background: #efede5;
+  }
+  .tabela-cox .frailty-row th, .tabela-cox .frailty-row td{
+    font-style: italic;
+    color: #55534c;
+    border-top: 1px dashed #b7b3a5;
+  }
+</style>
+
+
+<table class="tabela-cox caption-top">
+<thead>
+<tr class="group-row header">
+<th rowspan="2" data-quarto-table-cell-role="th" style="text-align: left; vertical-align: bottom; padding-bottom: 14px;">Variável</th>
+<th colspan="4" data-quarto-table-cell-role="th">Modelo 1 — Cox padrão</th>
+<th colspan="4" data-quarto-table-cell-role="th">Modelo 2 — Fragilidade gama</th>
+<th colspan="4" data-quarto-table-cell-role="th">Modelo 3 — Fragilidade normal</th>
+</tr>
+<tr class="sub-row even">
+<th data-quarto-table-cell-role="th">Coef.</th>
+<th data-quarto-table-cell-role="th">HR</th>
+<th data-quarto-table-cell-role="th">EP</th>
+<th data-quarto-table-cell-role="th">p</th>
+<th data-quarto-table-cell-role="th">Coef.</th>
+<th data-quarto-table-cell-role="th">HR</th>
+<th data-quarto-table-cell-role="th">EP</th>
+<th data-quarto-table-cell-role="th">p</th>
+<th data-quarto-table-cell-role="th">Coef.</th>
+<th data-quarto-table-cell-role="th">HR</th>
+<th data-quarto-table-cell-role="th">EP</th>
+<th data-quarto-table-cell-role="th">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Idade</th>
+<td>0,0231</td>
+<td>1,023</td>
+<td>0,0052</td>
+<td class="p-sig">8,47e-06</td>
+<td>0,0232</td>
+<td>1,023</td>
+<td>0,0053</td>
+<td class="p-sig">1,3e-05</td>
+<td>0,0232</td>
+<td>1,023</td>
+<td>0,0053</td>
+<td class="p-sig">1,24e-05</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">UTI <span style="font-weight:400; color:#55534c;">(ref. Não)</span></th>
+<td>0,8694</td>
+<td>2,385</td>
+<td>0,1398</td>
+<td class="p-sig">4,96e-10</td>
+<td>0,8448</td>
+<td>2,328</td>
+<td>0,1473</td>
+<td class="p-sig">9,8e-09</td>
+<td>0,8534</td>
+<td>2,348</td>
+<td>0,1471</td>
+<td class="p-sig">6,62e-09</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Nº diagnósticos secundários</th>
+<td>0,2164</td>
+<td>1,242</td>
+<td>0,0360</td>
+<td class="p-sig">1,90e-09</td>
+<td>0,2548</td>
+<td>1,290</td>
+<td>0,0480</td>
+<td class="p-sig">1,1e-07</td>
+<td>0,2569</td>
+<td>1,293</td>
+<td>0,0460</td>
+<td class="p-sig">2,41e-08</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Cor <span style="font-weight:400; color:#55534c;">(ref. branco)</span></th>
+<td>−0,2599</td>
+<td>0,771</td>
+<td>0,1351</td>
+<td class="p-marg">0,0544</td>
+<td>−0,2949</td>
+<td>0,745</td>
+<td>0,1394</td>
+<td class="p-sig">0,0340</td>
+<td>−0,2914</td>
+<td>0,747</td>
+<td>0,1391</td>
+<td class="p-sig">0,0361</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="slide level2">
+
+<ul>
+<li>Comparação dos três modelos ajustados</li>
+</ul>
+<table class="caption-top" style="border-collapse: collapse; width: 50%; max-width: 400px; font-family: Arial, sans-serif;">
+<thead>
+<tr class="header" style="background-color: #f2f2f2; border-bottom: 2px solid #ddd;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px;">Modelo</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; padding: 10px;">AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="border-bottom: 1px solid #ddd;">
+<td style="text-align: left; padding: 10px;">Modelo 1</td>
+<td style="text-align: right; padding: 10px;">2774.815</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #ddd;">
+<td style="text-align: left; padding: 10px;">Modelo 2</td>
+<td style="text-align: right; padding: 10px;">2756.611</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 10px; font-weight: bold;">Modelo 3</td>
+<td style="text-align: right; padding: 10px; font-weight: bold;">2755.247</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="slide level2">
+
 
 <img data-src="st_sinape_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
@@ -931,45 +1118,55 @@ Efeito
 <li><p>THERNEAU, T.M.; GRAMBSCH, P.M. <strong>Modeling Survival Data: Extending the Cox Model</strong>. New York: Springer, 2000.</p></li>
 </ul>
 </section>
-<section id="programa-de-pós-graduação" class="slide level2">
-<h2>🔔Programa de pós-graduação</h2>
-<p><br></p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div style="text-align: center;">
-<p>Matemática Aplicada e Computacional</p>
-<p><img src="imagem-sinape/logo_posmac_semfundo.png" width="40%"></p>
-<p style="text-align: center; color: blue;font-weight: bold;">
-<span class="citation" data-cites="posmac_unesp">@posmac_unesp</span>
-</p>
-</div>
-</div><div class="column" style="width:50%;">
-<ul>
-<li><p>Inscrições: 15/09 à 16/10.</p></li>
-<li><p><span style="color: blue;">Matemática computacional e ciência de dados</span></p></li>
-<li><p><a href="https://www.fct.unesp.br/#!/pos-graduacao/--matematica-aplicada-e-computacional/">posMAC</a></p></li>
-</ul>
-<div style="text-align: right;">
-<p><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzdubW4xanh3ZDY2azUzZTlubjI0YmFkdzM2ZG1pNGdscGc4bmV2dCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3a53VvGpzUgh05qq7W/giphy.gif" width="25%"></p>
-</div>
-</div></div>
-</section>
-<section id="section" class="slide level2">
-<h2><!--
----
+<section class="slide level2">
 
-## 📢Liga acadêmica Health Tech
+<!--
+## 🔔Programa de pós-graduação
 
 <br>
 
+:::{.columns}
+:::{.column width="50%"}
 <div style="text-align: center;">
-<img src="imagem-sinape/liga_academica.png" width="30%">
-</div>
+Matemática Aplicada e Computacional
+
+<img src="imagem-sinape/logo_posmac_semfundo.png" width="40%">
 
 <p style="text-align: center; color: blue;font-weight: bold;">
-@liga_healthtech
+@posmac_unesp
 </p>
---></h2>
+</div>
+:::
+
+:::{.column width="50%"}
+
+- Inscrições: 15/09 à 16/10.
+
+- <span style="color: blue;">Matemática computacional e ciência de dados</span>
+
+- [posMAC](https://www.fct.unesp.br/#!/pos-graduacao/--matematica-aplicada-e-computacional/)
+
+<div style="text-align: right;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzdubW4xanh3ZDY2azUzZTlubjI0YmFkdzM2ZG1pNGdscGc4bmV2dCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3a53VvGpzUgh05qq7W/giphy.gif" width="25%">
+</div>
+:::
+:::
+
+---
+-->
+</section>
+<section id="liga-acadêmica-health-tech" class="slide level2">
+<h2>🔔Liga acadêmica Health Tech</h2>
+<p><br></p>
+<div style="text-align: center;">
+<p><img src="imagem-sinape/liga_academica.png" width="30%"></p>
+</div>
+<p style="text-align: center; color: blue;font-weight: bold;">
+<span class="citation" data-cites="liga_healthtech">@liga_healthtech</span>
+</p>
+</section>
+<section class="slide level2">
+
 <p><br></p>
 <div class="columns">
 <div class="column" style="width:50%;">
