@@ -575,26 +575,26 @@ Elizabeth Mie Hashimoto
 <section class="slide level2">
 
 <p>O modelo de Cox com o termo de fragilidade é dado por</p>
-<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k\]</span> Alternativamente, usando <span class="math inline">\(Z_i = \exp(W_i)\)</span>, em que <span class="math inline">\(W_i\)</span> é o efeito aleatório aditivo:</p>
-<p><span class="math display">\[\lambda(t | X_{ij}, W_i) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_i)\]</span></p>
+<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad j=1\ldots k\quad i=1,\ldots,n_j\]</span> Alternativamente, usando <span class="math inline">\(Z_j = \exp(W_j)\)</span>, em que <span class="math inline">\(W_j\)</span> é o efeito aleatório aditivo:</p>
+<p><span class="math display">\[\lambda(t | X_{ij}, W_j) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_j)\]</span></p>
 </section>
 <section id="estimação-de-parâmetros" class="slide level2">
 <h2>Estimação de parâmetros</h2>
 <p><strong>Fragilidade gama</strong></p>
 <ul>
-<li><p>Assume-se que a fragilidade <span class="math inline">\(Z_i\)</span> segue uma distribuição Gama com média 1 e variância <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Assume-se que a fragilidade <span class="math inline">\(Z_j\)</span> segue uma distribuição Gama com média 1 e variância <span class="math inline">\(\theta\)</span>.</p></li>
 <li><p>A função de verossimilhança marginal para <span class="math inline">\(k\)</span> grupos é dada por</p></li>
 </ul>
-<p><span class="math display">\[L_{marg}(\beta, \theta) = \prod_{i=1}^k \int_{0}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | Z_i) \right] f_{\Gamma}(z_i; 1/\theta, 1/\theta) dz_i\]</span></p>
+<p><span class="math display">\[L(\beta, \theta) = \prod_{j=1}^k \int_{0}^{\infty} \left[ \prod_{i=1}^{n_j} L_{ij}(t_{ij} | Z_j) \right] f(z_j; 1/\theta, 1/\theta) dz_j\]</span></p>
 </section>
 <section class="slide level2">
 
 <p><strong>Fragilidade normal</strong></p>
 <ul>
-<li><p>Assume-se que o efeito aleatório aditivo <span class="math inline">\(W_i\)</span> segue uma distribuição normal, <span class="math inline">\(W_i \sim N(0, \sigma^2)\)</span>. Logo, <span class="math inline">\(Z_i\)</span> é Log-Normal.</p></li>
+<li><p>Assume-se que o efeito aleatório aditivo <span class="math inline">\(W_i\)</span> segue uma distribuição normal, <span class="math inline">\(W_j \sim N(0, \sigma^2)\)</span>. Logo, <span class="math inline">\(Z_j\)</span> é log-normal.</p></li>
 <li><p>A função de verossimilhança marginal para <span class="math inline">\(k\)</span> grupos é dada por</p></li>
 </ul>
-<p><span class="math display">\[L_{marg}(\beta, \sigma^2) = \prod_{i=1}^k \int_{-\infty}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | W_i) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_i^2}{2\sigma^2}\right) dw_i\]</span></p>
+<p><span class="math display">\[L(\beta, \sigma^2) = \prod_{j=1}^k \int_{-\infty}^{\infty} \left[ \prod_{i=1}^{j_i} L_{ij}(t_{ij} | W_j) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_j^2}{2\sigma^2}\right) dw_j\]</span></p>
 </section>
 <section id="seleção-de-modelos" class="slide level2">
 <h2>Seleção de modelos</h2>
@@ -890,7 +890,7 @@ Não
 <table class="tabela-cox caption-top">
 <thead>
 <tr class="group-row header">
-<th rowspan="2" data-quarto-table-cell-role="th" style="text-align: left; vertical-align: bottom; padding-bottom: 14px;">Variável</th>
+<th rowspan="2" data-quarto-table-cell-role="th" style="text-align: left; vertical-align: bottom; padding-bottom: 14px;">Covariável</th>
 <th colspan="4" data-quarto-table-cell-role="th">Modelo 1 — Cox padrão</th>
 <th colspan="4" data-quarto-table-cell-role="th">Modelo 2 — Fragilidade gama</th>
 <th colspan="4" data-quarto-table-cell-role="th">Modelo 3 — Fragilidade normal</th>
@@ -977,8 +977,9 @@ Não
 <section class="slide level2">
 
 <ul>
-<li>Comparação dos três modelos ajustados</li>
+<li>Seleção de modelos</li>
 </ul>
+<p><br></p>
 <table class="caption-top" style="border-collapse: collapse; width: 50%; max-width: 400px; font-family: Arial, sans-serif;">
 <thead>
 <tr class="header" style="background-color: #f2f2f2; border-bottom: 2px solid #ddd;">

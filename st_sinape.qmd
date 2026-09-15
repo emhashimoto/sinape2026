@@ -481,30 +481,30 @@ indivíduo ou grupo
 
 O modelo de Cox com o termo de fragilidade é dado por
 
-$$\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k$$
-Alternativamente, usando $Z_i = \exp(W_i)$, em que $W_i$ é o efeito aleatório aditivo:
+$$\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad j=1\ldots k\quad i=1,\ldots,n_j$$
+Alternativamente, usando $Z_j = \exp(W_j)$, em que $W_j$ é o efeito aleatório aditivo:
 
-$$\lambda(t | X_{ij}, W_i) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_i)$$
+$$\lambda(t | X_{ij}, W_j) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_j)$$
 
 ## Estimação de parâmetros
 
 **Fragilidade gama**
 
-- Assume-se que a fragilidade $Z_i$ segue uma distribuição Gama com média 1 e variância $\theta$.
+- Assume-se que a fragilidade $Z_j$ segue uma distribuição Gama com média 1 e variância $\theta$.
 
 - A função de verossimilhança marginal para $k$ grupos é dada por
 
-$$L_{marg}(\beta, \theta) = \prod_{i=1}^k \int_{0}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | Z_i) \right] f_{\Gamma}(z_i; 1/\theta, 1/\theta) dz_i$$
+$$L(\beta, \theta) = \prod_{j=1}^k \int_{0}^{\infty} \left[ \prod_{i=1}^{n_j} L_{ij}(t_{ij} | Z_j) \right] f(z_j; 1/\theta, 1/\theta) dz_j$$
 
 ---
 
 **Fragilidade normal**
 
-- Assume-se que o efeito aleatório aditivo $W_i$ segue uma distribuição normal, $W_i \sim N(0, \sigma^2)$. Logo, $Z_i$ é Log-Normal.
+- Assume-se que o efeito aleatório aditivo $W_i$ segue uma distribuição normal, $W_j \sim N(0, \sigma^2)$. Logo, $Z_j$ é log-normal.
 
 - A função de verossimilhança marginal para $k$ grupos é dada por
 
-$$L_{marg}(\beta, \sigma^2) = \prod_{i=1}^k \int_{-\infty}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | W_i) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_i^2}{2\sigma^2}\right) dw_i$$
+$$L(\beta, \sigma^2) = \prod_{j=1}^k \int_{-\infty}^{\infty} \left[ \prod_{i=1}^{j_i} L_{ij}(t_{ij} | W_j) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_j^2}{2\sigma^2}\right) dw_j$$
 
 ## Seleção de modelos
 
@@ -1070,7 +1070,7 @@ ggsurvplot(km_cor, data = df,
 <table class="tabela-cox">
   <thead>
     <tr class="group-row">
-      <th rowspan="2" style="text-align:left; vertical-align:bottom; padding-bottom:14px;">Variável</th>
+      <th rowspan="2" style="text-align:left; vertical-align:bottom; padding-bottom:14px;">Covariável</th>
       <th colspan="4">Modelo 1 — Cox padrão</th>
       <th colspan="4">Modelo 2 — Fragilidade gama</th>
       <th colspan="4">Modelo 3 — Fragilidade normal</th>
@@ -1114,7 +1114,9 @@ ggsurvplot(km_cor, data = df,
 
 ---
 
-- Comparação dos três modelos ajustados
+- Seleção de modelos
+
+<br>
 
 ```{=html}
 <table style="border-collapse: collapse; width: 50%; max-width: 400px; font-family: Arial, sans-serif;">
