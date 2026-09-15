@@ -266,7 +266,7 @@ from: markdown+emoji
 
 - Proposto por David Cox (1972), modela o tempo até o evento por meio da função de risco dada por
 
-$$\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i\beta), i=1,\ldots,n$$
+$$\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i^{\top}\beta), i=1,\ldots,n$$
 em que $\lambda_0(t)$ é a função de risco base, $X_i$ é o vetor de covariáveis e $\beta$ é o vetor de parâmetros desconhecidos.
 
 ---
@@ -517,6 +517,8 @@ em que $p$ é o númerod e parâmetro.
 
 $$AIC = -2l(\theta)+2df,$$
 em que $df$ é o graus de liberdade efetivos.
+
+---
 
 - **Modelo de Cox com fragilidade normal**
 
