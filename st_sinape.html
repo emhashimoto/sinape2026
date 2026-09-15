@@ -351,8 +351,10 @@ Elizabeth Mie Hashimoto
 <section id="modelo-de-cox-com-fragilidade" class="slide level2">
 <h2>⚙️Modelo de Cox com fragilidade</h2>
 <p><br></p>
-<p>O modelo de Cox é definido por</p>
-<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i\beta), i=1,\ldots,n\]</span></p>
+<ul>
+<li>Proposto por David Cox (1972), modela o tempo até o evento por meio da função de risco dada por</li>
+</ul>
+<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i\beta), i=1,\ldots,n\]</span> em que <span class="math inline">\(\lambda_0(t)\)</span> é a função de risco base, <span class="math inline">\(X_i\)</span> é o vetor de covariáveis e <span class="math inline">\(\beta\)</span> é o vetor de parâmetros desconhecidos.</p>
 </section>
 <section class="slide level2">
 
@@ -573,7 +575,41 @@ Elizabeth Mie Hashimoto
 <section class="slide level2">
 
 <p>O modelo de Cox com o termo de fragilidade é dado por</p>
-<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)w_j\exp(X_i\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k\]</span></p>
+<p><span class="math display">\[\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k\]</span> Alternativamente, usando <span class="math inline">\(Z_i = \exp(W_i)\)</span>, em que <span class="math inline">\(W_i\)</span> é o efeito aleatório aditivo:</p>
+<p><span class="math display">\[\lambda(t | X_{ij}, W_i) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_i)\]</span></p>
+</section>
+<section id="estimação-de-parâmetros" class="slide level2">
+<h2>Estimação de parâmetros</h2>
+<p><strong>Fragilidade gama</strong></p>
+<ul>
+<li><p>Assume-se que a fragilidade <span class="math inline">\(Z_i\)</span> segue uma distribuição Gama com média 1 e variância <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>A função de verossimilhança marginal para <span class="math inline">\(k\)</span> grupos é dada por</p></li>
+</ul>
+<p><span class="math display">\[L_{marg}(\beta, \theta) = \prod_{i=1}^k \int_{0}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | Z_i) \right] f_{\Gamma}(z_i; 1/\theta, 1/\theta) dz_i\]</span></p>
+</section>
+<section class="slide level2">
+
+<p><strong>Fragilidade normal</strong></p>
+<ul>
+<li><p>Assume-se que o efeito aleatório aditivo <span class="math inline">\(W_i\)</span> segue uma distribuição normal, <span class="math inline">\(W_i \sim N(0, \sigma^2)\)</span>. Logo, <span class="math inline">\(Z_i\)</span> é Log-Normal.</p></li>
+<li><p>A função de verossimilhança marginal para <span class="math inline">\(k\)</span> grupos é dada por</p></li>
+</ul>
+<p><span class="math display">\[L_{marg}(\beta, \sigma^2) = \prod_{i=1}^k \int_{-\infty}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | W_i) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_i^2}{2\sigma^2}\right) dw_i\]</span></p>
+</section>
+<section id="seleção-de-modelos" class="slide level2">
+<h2>Seleção de modelos</h2>
+<ul>
+<li><strong>Modelo Cox</strong></li>
+</ul>
+<p><span class="math display">\[AIC = -2l(\theta)+2p,\]</span> em que <span class="math inline">\(p\)</span> é o númerod e parâmetro.</p>
+<ul>
+<li><strong>Modelo de Cox com fragilidade gama</strong></li>
+</ul>
+<p><span class="math display">\[AIC = -2l(\theta)+2df,\]</span> em que <span class="math inline">\(df\)</span> é o graus de liberdade efetivos.</p>
+<ul>
+<li><strong>Modelo de Cox com fragilidade normal</strong></li>
+</ul>
+<p><span class="math display">\[AIC = -2(l_{pen}(\theta)-penalidade)+2df,\]</span> em que <span class="math inline">\(l_{pen}(\theta)\)</span> é o logaritmo da função de verossimilhança penalizada</p>
 </section>
 <section id="resultados-e-discussões" class="slide level2">
 <h2>🗨️Resultados e discussões</h2>

@@ -264,9 +264,10 @@ from: markdown+emoji
 
 <br>
 
-O modelo de Cox é definido por
+- Proposto por David Cox (1972), modela o tempo até o evento por meio da função de risco dada por
 
 $$\lambda(t_i|X_i)=\lambda_0(t_i)\exp(X_i\beta), i=1,\ldots,n$$
+em que $\lambda_0(t)$ é a função de risco base, $X_i$ é o vetor de covariáveis e $\beta$ é o vetor de parâmetros desconhecidos.
 
 ---
 
@@ -480,7 +481,47 @@ indivíduo ou grupo
 
 O modelo de Cox com o termo de fragilidade é dado por
 
-$$\lambda(t_i|X_i)=\lambda_0(t_i)w_j\exp(X_i\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k$$
+$$\lambda(t_i|X_i)=\lambda_0(t_i)Z_j\exp(X_{ij}^{\top}\beta), \quad i=1,\ldots,n_j, \quad j=1\ldots k$$
+Alternativamente, usando $Z_i = \exp(W_i)$, em que $W_i$ é o efeito aleatório aditivo:
+
+$$\lambda(t | X_{ij}, W_i) = \lambda_0(t) \exp(X_{ij}^{\top} \beta + W_i)$$
+
+## Estimação de parâmetros
+
+**Fragilidade gama**
+
+- Assume-se que a fragilidade $Z_i$ segue uma distribuição Gama com média 1 e variância $\theta$.
+
+- A função de verossimilhança marginal para $k$ grupos é dada por
+
+$$L_{marg}(\beta, \theta) = \prod_{i=1}^k \int_{0}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | Z_i) \right] f_{\Gamma}(z_i; 1/\theta, 1/\theta) dz_i$$
+
+---
+
+**Fragilidade normal**
+
+- Assume-se que o efeito aleatório aditivo $W_i$ segue uma distribuição normal, $W_i \sim N(0, \sigma^2)$. Logo, $Z_i$ é Log-Normal.
+
+- A função de verossimilhança marginal para $k$ grupos é dada por
+
+$$L_{marg}(\beta, \sigma^2) = \prod_{i=1}^k \int_{-\infty}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | W_i) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_i^2}{2\sigma^2}\right) dw_i$$
+
+## Seleção de modelos
+
+- **Modelo Cox**
+
+$$AIC = -2l(\theta)+2p,$$
+em que $p$ é o númerod e parâmetro.
+
+- **Modelo de Cox com fragilidade gama**
+
+$$AIC = -2l(\theta)+2df,$$
+em que $df$ é o graus de liberdade efetivos.
+
+- **Modelo de Cox com fragilidade normal**
+
+$$AIC = -2(l_{pen}(\theta)-penalidade)+2df,$$
+em que $l_{pen}(\theta)$ é o logaritmo da função de verossimilhança penalizada
 
 ## 🗨️Resultados e discussões
 

@@ -1,0 +1,61 @@
+---
+title: "Untitled"
+format: html
+---
+
+## O Modelo de Cox Padrão
+
+- Proposto por David Cox (1972), modela o tempo até o evento através da função de risco.
+- Assume que os tempos de falha são independentes.
+- A função de risco para o indivíduo $i$ com covariáveis $X_i$ é dada por:
+
+$$h_i(t | X_i) = h_0(t) \exp(X_i^T \beta)$$
+
+Onde:
+- $h_0(t)$ é a função de risco base (não especificada).
+- $X_i$ é o vetor de covariáveis.
+- $\beta$ é o vetor de coeficientes a serem estimados.
+
+## O Modelo com Fragilidade Compartilhada
+
+- Extensão do modelo de Cox para dados correlacionados (clusters, medidas repetidas) ou heterogeneidade não observada.
+- Introduz um efeito aleatório multiplicativo, chamado de **fragilidade** ($Z_i$).
+- Indivíduos no mesmo grupo $i$ compartilham a mesma fragilidade.
+
+$$h_{ij}(t | X_{ij}, Z_i) = h_0(t) Z_i \exp(X_{ij}^T \beta)$$
+
+- Alternativamente, usando $Z_i = \exp(W_i)$, onde $W_i$ é o efeito aleatório aditivo:
+
+$$h_{ij}(t | X_{ij}, W_i) = h_0(t) \exp(X_{ij}^T \beta + W_i)$$
+
+## Verossimilhança: Fragilidade Gama
+
+- Assume-se que a fragilidade $Z_i$ segue uma distribuição Gama com média 1 e variância $\theta$.
+- A grande vantagem é que a integração para obter a verossimilhança marginal tem **forma fechada** (via transformada de Laplace).
+- A função de verossimilhança marginal (ou penalizada equivalente) para $G$ grupos é baseada na integração de $Z_i$ para fora da equação:
+
+$$L_{marg}(\beta, \theta) = \prod_{i=1}^G \int_{0}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | Z_i) \right] f_{\Gamma}(z_i; 1/\theta, 1/\theta) dz_i$$
+
+- Resulta em uma expressão explícita que facilita muito o custo computacional da maximização.
+
+## Verossimilhança: Fragilidade Normal (Log-Normal)
+
+- Assume-se que o efeito aleatório aditivo $W_i$ segue uma distribuição Normal, $W_i \sim N(0, \sigma^2)$. Logo, $Z_i$ é Log-Normal.
+- **Não possui forma fechada**. A verossimilhança marginal exige integração numérica ou aproximações:
+
+$$L_{marg}(\beta, \sigma^2) = \prod_{i=1}^G \int_{-\infty}^{\infty} \left[ \prod_{j=1}^{n_i} L_{ij}(t_{ij} | W_i) \right] \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{w_i^2}{2\sigma^2}\right) dw_i$$
+
+- Estratégias comuns de estimação incluem quadratura de Gauss-Hermite, aproximação de Laplace ou maximização da Verossimilhança Parcial Penalizada.
+
+## Seleção de Modelos: Cálculo do AIC
+
+- O Critério de Informação de Akaike (AIC) é usado para comparar modelos (ex: Cox padrão vs. Gama vs. Normal).
+- A fórmula geral para modelos de verossimilhança marginal é:
+
+$$AIC = -2 \log(L_{marg}) + 2k$$
+
+Onde:
+- $\log(L_{marg})$ é o logaritmo da verossimilhança marginal maximizada.
+- $k$ é o número de parâmetros estimados do modelo (incluindo o parâmetro de variância da fragilidade, $\theta$ ou $\sigma^2$).
+
+- *Nota para modelos com verossimilhança penalizada:* O AIC pode ser ajustado usando os "graus de liberdade efetivos" ($df$) da matriz de variância em vez do simples número de parâmetros: $AIC = -2 l_{pen} + 2 df$.
