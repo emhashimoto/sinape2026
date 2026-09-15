@@ -84,7 +84,7 @@ from: markdown+emoji
 :::{.column width="33%"}
 :::{.fragment}
 <div style="text-align: center;">
-<img src="imagem-sinape/motivacao2.png" width="90%">
+<img src="imagem-sinape/motiv2.png" width="90%">
 </div>
 :::
 :::
@@ -103,19 +103,41 @@ from: markdown+emoji
 :::{.columns}
 :::{.column width=50%"}
 <div style="text-align: center;">
-<img src="imagem-sinape/pesquisa3.png" width="120%">
+<img src="imagem-sinape/cid_motiv1.png" width="120%">
 </div>
 :::
 
 :::{.column width="50%"}
 <div style="text-align: center;">
-<img src="imagem-sinape/pesquisa1.png" width="120%">
+<img src="imagem-sinape/cid_motiv2.png" width="120%">
+</div>
+:::
+:::
+
+:::{.fragment}
+<div style="text-align: center;">
+<img src="imagem-sinape/cid_motiv3.png" width="60%">
+</div>
+:::
+
+---
+
+:::{.columns}
+:::{.column width=50%"}
+<div style="text-align: center;">
+<img src="imagem-sinape/pesquisa2.png" width="120%">
+</div>
+:::
+
+:::{.column width="50%"}
+<div style="text-align: center;">
+<img src="imagem-sinape/pesquisa3.png" width="120%">
 </div>
 :::
 :::
 
 <div style="text-align: center;">
-<img src="imagem-sinape/pesquisa3.png" width="70%">
+<img src="imagem-sinape/pesquisa1.png" width="70%">
 </div>
 
 ## 🗃️Conjunto de dados
@@ -1270,8 +1292,6 @@ ggplot() +
 - Obtenção da base de dados.
 
 - Resultados com validade para o ano de 2025.
-
-- Implementação da estimação de parâmetros.
 :::
 :::
 :::
@@ -1279,11 +1299,25 @@ ggplot() +
 
 ## 📚Referências
 
+- CHANG, T. E. et al. Trends and Factors Associated With Concordance Between International Classification of Diseases, Ninth and Tenth Revision, Clinical Modification Codes and Stroke Clinical Diagnoses. **Stroke**, v.50, p.1959-1967, 2019.
+
 - COLOSIMO, E.A; GIOLO, S.R. **Análise de sobrevivência aplicada**. 2. ed. São Paulo: Blucher, 2024.
+
+- COLUMBO, J. A. et al. Derivation and Validation of ICD-10 Codes for Identifying Incident Stroke. **JAMA Neurology**, v.81, p. 875-881, 2024.
+
+## 📚Referências
+
+- GOULART, T. O. et al. Ischemic stroke in Brazil (2017–2025): Trends in admissions, thrombolysis, craniectomy, costs, and COVID-19 disruption. **Journal of Stroke and Cerebrovascular Diseases**, v.35, art.108631, 2026.
+
+- KILKENNY, M. F. et al. Utility of the Hospital Frailty Risk Score Derived From Administrative Data and the Association With Stroke Outcomes. **Stroke**, v.52, p.2874-2881, 2021.
+
+- NIKMOHAMMADI, N.; GILANI, N.; SHAMSHIRGARAN, S. M.; SARBAKHSH, P. Health care providers' effect on long-term mortality after the first-ever stroke: application of shared frailty survival models. **Neurological Sciences**, v.43, p.4307-4313, 2022.
+
+## 📚Referências
 
 - THERNEAU, T.M.; GRAMBSCH, P.M. **Modeling Survival Data: Extending the Cox Model**. New York: Springer, 2000.
 
----
+- WU, C.-L.; et al. Stroke and Risks of Development and Progression of Kidney Diseases and End-Stage Renal Disease: A Nationwide Population-Based Cohort Study. **PLOS ONE**, v.11, p. e0158533, 2016.
 
 <!--
 ## 🔔Programa de pós-graduação
